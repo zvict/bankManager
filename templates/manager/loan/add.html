@@ -1,0 +1,94 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+   
+  <form class="layui-form" action="/loan/addsucc/", method="POST">
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请选择贷款客户</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">身份证</label>
+      <div class="layui-input-block">
+        <div name="cusid" id="cusid" class="xm-select-demo"></div>
+      </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请输入贷款信息</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">贷款号</label>
+      <div class="layui-input-block">
+        <input type="text" name="loanid" lay-verify="required|number" lay-reqtext="贷款号是必填项" placeholder="请输入4位贷款号" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">贷款总额</label>
+      <div class="layui-input-block">
+        <input type="text" name="money" lay-verify="required|number" lay-reqtext="贷款总额是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">贷款银行</label>
+      <div class="layui-input-block">
+        <select name="bankname" id="bankname" lay-filter="bankname" lay-verify="required">
+          <option value=""></option>
+          {% for bank_name in bank_names %}
+            <option value="{{bank_name}}">{{bank_name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">贷款日期</label>
+      <div class="layui-input-inline">
+        <input type="text" name="settime" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+  
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script src="/static/layui/layui.all.js" charset="utf-8"></script>
+<script src="/static/xmselect/xm-select.js"></script>
+<script>
+layui.use(['form','laydate'], function(){
+  var form = layui.form;
+  var laydate = layui.laydate;
+  var $ = layui.jquery;
+
+  laydate.render({
+    elem: '#date'
+  });
+});
+
+var multiselect = xmSelect.render({
+  el: '#cusid',
+  name: 'cusid',
+  layVerify: 'required',
+  layVerType: 'msg',
+  data: [
+    {% for cus_id in cus_ids %}
+      {name: '{{cus_id}}', value: {{cus_id}}},
+    {% endfor %}
+  ]
+});
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>{{msg}}</legend>
+  </fieldset>
+
+  <div class="layui-btn-container" style="margin-left: 25px;">
+    <a href="/loan/pay/">
+      <button type="button" class="layui-btn">继续发放</button>
+    </a>
+  </div>
+  
+</div>
+{% endblock %}

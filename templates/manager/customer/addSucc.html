@@ -1,0 +1,21 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    {% if save_succ %}
+    <legend>新增成功</legend>
+    {% else %}
+    <legend>新增失败</legend>
+    {% endif %}
+  </fieldset>
+
+  <div class="layui-btn-container" style="margin-left: 25px;">
+    <a href="/customer/add/">
+      <button type="button" class="layui-btn">继续增加</button>
+    </a>
+  </div>
+  
+</div>
+{% endblock %}

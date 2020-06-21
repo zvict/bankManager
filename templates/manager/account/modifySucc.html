@@ -1,0 +1,21 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    {% if modify_succ %}
+    <legend>修改成功</legend>
+    {% else %}
+    <legend>修改失败</legend>
+    {% endif %}
+  </fieldset>
+
+  <div class="layui-btn-container" style="margin-left: 25px;">
+    <a href="/account/modify/">
+      <button type="button" class="layui-btn">继续修改</button>
+    </a>
+  </div>
+  
+</div>
+{% endblock %}

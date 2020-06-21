@@ -1,0 +1,209 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+   
+  <form class="layui-form" action="/account/addsucc/", method="POST">
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请输入客户信息</legend>
+    </fieldset>
+
+    <!-- <div class="layui-form-item">
+      <label class="layui-form-label">身份证</label>
+      <div class="layui-input-block">
+        <select name="cusid" lay-filter="cusid" id="cusid">
+          <option value=""></option>
+          {% for cus_id in cus_ids %}
+            <option value="{{cus_id}}">{{cus_id}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div> -->
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">身份证</label>
+      <div class="layui-input-block">
+        <div name="cusid" id="cusid" class="xm-select-demo"></div>
+      </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请输入账户信息</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户号</label>
+      <div class="layui-input-block">
+        <input type="text" name="accountid" lay-verify="required|number" lay-reqtext="账户号是必填项" placeholder="请输入6位账户号" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户余额</label>
+      <div class="layui-input-block">
+        <input type="text" name="money" lay-verify="required|number" lay-reqtext="余额是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">开户日期</label>
+      <div class="layui-input-inline">
+        <input type="text" name="settime" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">开户银行</label>
+      <div class="layui-input-block">
+        <select name="bankname" id="bankname" lay-filter="bankname" lay-verify="required">
+          <option value=""></option>
+          {% for bank_name in bank_names %}
+            <option value="{{bank_name}}">{{bank_name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户类型</label>
+      <div class="layui-input-block">
+        <input type="radio" name="accounttype" value=0 title="储蓄账户" lay-filter="saveradio" checked="">
+        <input type="radio" name="accounttype" value=1 title="支票账户" lay-filter="checkradio">
+      </div>
+    </div>
+
+    <div class="layui-form-item" id="overdraft" hidden="">
+      <label class="layui-form-label">透支额度</label>
+      <div class="layui-input-inline">
+        <input type="text" name="overdraft" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item" id="savetype">
+      <label class="layui-form-label">货币类型</label>
+      <div class="layui-input-block">
+        <select name="savetype" lay-filter="savetype">
+          <option value=""></option>
+          <option value="人民币">人民币</option>
+          <option value="美元">美元</option>
+          <option value="日元">日元</option>
+          <option value="英镑">英镑</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item" id="interestrate">
+      <label class="layui-form-label">利率</label>
+      <div class="layui-input-block">
+        <select name="interestrate">
+          <option value=""></option>
+          <option value="0.02">0.02</option>
+          <option value="0.03">0.03</option>
+          <option value="0.05">0.05</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请选择账户负责人</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">员工编号</label>
+      <div class="layui-input-block">
+        <select name="empid" id="empid">
+          <option value=""></option>
+          {% for emp_id in emp_ids %}
+            <option value="{{emp_id}}">{{emp_id}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div> -->
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+  
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script src="/static/layui/layui.all.js" charset="utf-8"></script>
+<script src="/static/xmselect/xm-select.js"></script>
+<script>
+layui.use(['form','laydate'], function(){
+  var form = layui.form;
+  var laydate = layui.laydate;
+  var $ = layui.jquery;
+
+  laydate.render({
+    elem: '#date'
+  });
+
+  // form.on('select(bankname)', function(data){
+  //   var bankname = data.value;
+  //   // var cusid = form.val('cusid');
+  //   // var cusid = $('#cusid').val();
+  //   var cusid = multiselect.getValue();
+  //   console.log(cusid);
+  //   $.ajax({
+  //     type: "GET",
+  //     url: "/account/add/ajax/getemps/",
+  //     data: {"bankname":bankname, "cusid":cusid},
+  //     success: function (ev) {
+  //       console.log("获取数据成功");
+  //       $("#empid").empty();
+  //       $("#empid").append("<option value=''></option>");
+  //       for(var i = 0; i < ev.emp_ids.length; i++){
+  //           $("#empid").append("<option value='"+ev.emp_ids[i]+"'>"+ev.emp_ids[i]+"</option>");
+  //       }
+  //       form.render();
+  //     },
+  //     error: function () {
+  //       alert("获取数据失败","error");
+  //     }
+  //   });
+  // });
+
+  form.on('radio(saveradio)', function(data) {
+    // console.log("获取数据成功");
+    $("#interestrate").show();
+    $('#savetype').show();
+    $("#overdraft").hide();
+    form.render();
+  });
+
+  form.on('radio(checkradio)', function(data) {
+    // console.log("获取数据成功");
+    $("#interestrate").hide();
+    $('#savetype').hide();
+    $("#overdraft").show();
+    form.render();
+  });
+
+});
+
+var multiselect = xmSelect.render({
+	el: '#cusid', 
+	// data: [
+	// 	{name: '张三', value: 1},
+	// 	{name: '李四', value: 2},
+	// 	{name: '王五', value: 3},
+	// ],
+  name: 'cusid',
+	layVerify: 'required',
+	layVerType: 'msg',
+  data: [
+    {% for cus_id in cus_ids %}
+      {name: '{{cus_id}}', value: {{cus_id}}},
+    {% endfor %}
+  ]
+});
+</script>
+{% endblock %}

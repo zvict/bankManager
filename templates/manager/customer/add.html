@@ -1,0 +1,117 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>请输入客户信息</legend>
+  </fieldset>
+   
+  <form class="layui-form" action="/customer/addsucc/", method="POST">
+    <div class="layui-form-item">
+      <label class="layui-form-label">身份证</label>
+      <div class="layui-input-block">
+        <input type="text" name="cusid" lay-verify="required|identity" lay-reqtext="客户身份证是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-block">
+        <input type="text" name="cusname" lay-verify="required" lay-reqtext="客户姓名是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">手机</label>
+      <div class="layui-input-block">
+        <input type="text" name="cusphone" lay-verify="required|phone" lay-reqtext="客户手机是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">住址</label>
+      <div class="layui-input-block">
+        <input type="text" name="address" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请输入联系人信息</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-block">
+        <input type="text" name="contact_name" lay-verify="required" lay-reqtext="联系人姓名是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">手机</label>
+      <div class="layui-input-block">
+        <input type="text" name="contact_phone" lay-verify="required|phone" lay-reqtext="联系人手机是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">邮箱</label>
+      <div class="layui-input-block">
+        <input type="text" name="contact_email" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">关系</label>
+      <div class="layui-input-block">
+        <input type="text" name="contact_relation" lay-reqtext="关系是必填项" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请输入负责人信息</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户负责人</label>
+      <div class="layui-input-block">
+        <select name="accres" id="accres">
+          <option value=""></option>
+          {% for emp_id in emp_ids %}
+            <option value="{{emp_id}}">{{emp_id}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">贷款负责人</label>
+      <div class="layui-input-block">
+        <select name="loanres" id="loanres">
+          <option value=""></option>
+          {% for emp_id in emp_ids %}
+            <option value="{{emp_id}}">{{emp_id}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+  
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+layui.use(['form'], function(){
+  var form = layui.form
+});
+</script>
+{% endblock %}

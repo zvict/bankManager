@@ -1,0 +1,168 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>贷款信息</legend>
+  </fieldset>
+
+  <form class="layui-form" action="/loan/query/", method="POST">
+    <div class="layui-form-item">
+      <div class="layui-form-mid layui-word-aux" style="margin-left: 90px;">输入任意信息进行查询</div>
+    </div>
+
+    <div class="layui-form-item" style="margin-left: 90px;">
+      <div class="layui-inline">
+        <label class="layui-form-label">贷款编号</label>
+        <div class="layui-input-block">
+          <input type="text" name="loanid" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-inline">
+        <label class="layui-form-label">贷款总额</label>
+        <div class="layui-input-block">
+          <input type="text" name="money" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-inline">
+        <label class="layui-form-label">贷款余额</label>
+        <div class="layui-input-block">
+          <input type="text" name="moneyleft" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <!-- <div class="layui-inline">
+        <label class="layui-form-label">贷款银行</label>
+        <div class="layui-input-block">
+          <input type="text" name="bank.bankname" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div> -->
+      <label class="layui-form-label">贷款银行</label>
+      <div class="layui-input-inline">
+        <select name="bank_id">
+          <option value=""></option>
+          {% for bank_name in bank_names %}
+            <option value="{{bank_name}}">{{bank_name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- <div class="layui-inline">
+        <label class="layui-form-label">贷款状态</label>
+        <div class="layui-input-inline">
+          <input type="text" name="bank.bankname" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div> -->
+      <label class="layui-form-label">贷款状态</label>
+      <div class="layui-input-inline">
+        <select name="state">
+          <option value=""></option>
+          {% for key, value in statemap.items %}
+            <option value="{{key}}">{{value}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+
+  <form class="layui-form" style="margin-left: 110px;">
+    <table class="layui-table">
+      <colgroup>
+        <col width="200">
+        <col width="200">
+        <col width="200">
+        <col width="200">
+        <col width="200">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>贷款编号</th>
+          <th>贷款总额</th>
+          <th>贷款余额</th>
+          <th>贷款银行</th>
+          <th>贷款日期</th>
+          <th>贷款状态</th>
+          <th>操作</th>
+        </tr> 
+      </thead>
+      <tbody>
+        {% for loan in data %}
+          <tr>
+            <td>{{loan.loanid}}</td>
+            <td>{{loan.money}}</td>
+            <td>{{loan.moneyleft}}</td>
+            <td>{{loan.bank.bankname}}</td>
+            <td>{{loan.settime}}</td>
+            {% for key, value in statemap.items %}
+              {% if loan.state == key %}
+                <td>{{value}}</td>
+              {% endif %}
+            {% endfor %}
+            <td>
+              <a class="layui-btn layui-btn-normal" onclick="showPayInfos({{ loan.loanid|make_list }})">
+                <i class="layui-icon">&#xe702;</i>发放信息
+              </a>
+              <a href="/loan/delete/{{ loan.loanid }}/" class="layui-btn layui-btn-danger">
+                  <i class="layui-icon">&#xe640;</i>删除
+              </a>
+            </td>
+          </tr>
+          <thead>
+            <tr class="payinfos{{ loan.loanid }}" hidden>
+              <th>付款编号</th>
+              <th>付款金额</th>
+              <th>收款客户</th>
+              <th>付款时间</th>
+            </tr> 
+          </thead>
+          {% for payinfo in loan.payinfo_set.all %}
+          <tr class="payinfos{{ loan.loanid }}" hidden>
+            <td>{{payinfo.id}}</td>
+            <td>{{payinfo.money}}</td>
+            <td>{{payinfo.cusid.cusid}}</td>
+            <td>{{payinfo.paytime}}</td>
+          </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script src="/static/layui/layui.all.js" charset="utf-8"></script>
+<script src="/static/xmselect/xm-select.js"></script>
+<script>
+layui.use(['form'], function(){
+  var form = layui.form;
+  form.val('example', {
+      "identity": "000000000000000000"
+  });
+});
+
+function showPayInfos(data) {
+  var $ = layui.jquery;
+  var dest = ".payinfos"+data.join("");
+  $(dest).toggle();
+};
+
+{% if msg %}
+layui.use('layer', function(){
+  var layer = layui.layer;
+  layer.msg("{{msg}}");
+});
+{% endif %}
+</script>
+{% endblock %}

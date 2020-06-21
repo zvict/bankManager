@@ -1,0 +1,208 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  <div class="layui-row">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>储蓄账户信息</legend>
+    </fieldset>
+
+    <form class="layui-form" action="/account/query/", method="POST">
+      <div class="layui-form-item">
+        <div class="layui-form-mid layui-word-aux" style="margin-left: 90px;">输入任意信息进行查询</div>
+      </div>
+
+      <div class="layui-form-item" style="margin-left: 60px;">
+        <div class="layui-inline">
+          <label class="layui-form-label">账户号</label>
+          <div class="layui-input-block">
+            <input type="text" name="accountid" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">账户余额</label>
+          <div class="layui-input-block">
+            <input type="text" name="accountid__money" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">开户日期</label>
+          <div class="layui-input-block">
+            <input type="text" name="accountid__settime" placeholder="YYYY-MM-DD" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">利率</label>
+          <div class="layui-input-block">
+            <input type="text" name="interestrate" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">货币类型</label>
+          <div class="layui-input-block">
+            <input type="text" name="savetype" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+
+    <form class="layui-form" style="margin-left: 110px;">
+      <table class="layui-table">
+        <colgroup>
+          <col width="200">
+          <col width="200">
+          <col width="200">
+          <col width="200">
+          <col width="200">
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>账户号</th>
+            <th>账户余额</th>
+            <th>开户日期</th>
+            <th>利率</th>
+            <th>货币类型</th>
+            <th>开户银行</th>
+            <th>操作</th>
+          </tr> 
+        </thead>
+        <tbody>
+          {% for saveacc in saveaccs %}
+            <tr>
+              <td>{{saveacc.accountid.accountid}}</td>
+              <td>{{saveacc.accountid.money}}</td>
+              <td>{{saveacc.accountid.settime}}</td>
+              <td>{{saveacc.interestrate}}</td>
+              <td>{{saveacc.savetype}}</td>
+              <td>{{saveacc.accountid.cusforacc_set.all.0.bank.bankname}}</td>
+              <td>
+                  <a href="/account/modify/{{ saveacc.accountid.accountid }}/" class="layui-btn layui-btn-normal">
+                      <i class="layui-icon">&#xe642;</i>修改
+                  </a>
+                  <a href="/account/delete/{{ saveacc.accountid.accountid }}/" class="layui-btn layui-btn-danger">
+                      <i class="layui-icon">&#xe640;</i>删除
+                  </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+  </div>
+
+  <div class="layui-row">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>支票账户信息</legend>
+    </fieldset>
+
+    <form class="layui-form" action="/account/query/", method="POST">
+      <div class="layui-form-item">
+        <div class="layui-form-mid layui-word-aux" style="margin-left: 90px;">输入任意信息进行查询</div>
+      </div>
+
+      <div class="layui-form-item" style="margin-left: 60px;">
+        <div class="layui-inline">
+          <label class="layui-form-label">账户号</label>
+          <div class="layui-input-block">
+            <input type="text" name="accountid" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">账户余额</label>
+          <div class="layui-input-block">
+            <input type="text" name="accountid__money" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">开户日期</label>
+          <div class="layui-input-block">
+            <input type="text" name="accountid__settime" placeholder="YYYY-MM-DD" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">透支额度</label>
+          <div class="layui-input-block">
+            <input type="text" name="overdraft" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+
+    <form class="layui-form" style="margin-left: 110px;">
+      <table class="layui-table">
+        <colgroup>
+          <col width="200">
+          <col width="200">
+          <col width="200">
+          <col width="400">
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>账户号</th>
+            <th>账户余额</th>
+            <th>开户日期</th>
+            <th>透支额度</th>
+            <th>开户银行</th>
+            <th>操作</th>
+          </tr> 
+        </thead>
+        <tbody>
+          {% for checkacc in checkaccs %}
+            <tr>
+              <td>{{checkacc.accountid.accountid}}</td>
+              <td>{{checkacc.accountid.money}}</td>
+              <td>{{checkacc.accountid.settime}}</td>
+              <td>{{checkacc.overdraft}}</td>
+              <td>{{checkacc.accountid.cusforacc_set.all.0.bank.bankname}}</td>
+              <td>
+                  <a href="/account/modify/{{ checkacc.accountid.accountid }}/" class="layui-btn layui-btn-normal">
+                      <i class="layui-icon">&#xe642;</i>修改
+                  </a>
+                  <a href="/account/delete/{{ checkacc.accountid.accountid }}/" class="layui-btn layui-btn-danger">
+                      <i class="layui-icon">&#xe640;</i>删除
+                  </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+layui.use(['form'], function(){
+  var form = layui.form;
+  form.val('example', {
+      "identity": "000000000000000000"
+  });
+});
+</script>
+{% endblock %}

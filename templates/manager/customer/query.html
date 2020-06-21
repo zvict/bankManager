@@ -1,0 +1,148 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>客户信息</legend>
+  </fieldset>
+
+  <form class="layui-form" action="/customer/query/", method="POST">
+    <div class="layui-form-item">
+      <div class="layui-form-mid layui-word-aux" style="margin-left: 90px;">输入任意信息进行查询</div>
+    </div>
+
+    <div class="layui-form-item" style="margin-left: 90px;">
+      <div class="layui-inline">
+        <label class="layui-form-label">客户身份证</label>
+        <div class="layui-input-block">
+          <input type="text" name="cusid" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">客户姓名</label>
+        <div class="layui-input-block">
+          <input type="text" name="cusname" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-inline">
+
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">客户电话</label>
+        <div class="layui-input-block">
+          <input type="text" name="cusphone" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">客户住址</label>
+        <div class="layui-input-block">
+          <input type="text" name="address" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-left: 90px;">
+      <div class="layui-inline">
+        <label class="layui-form-label">联系人姓名</label>
+        <div class="layui-input-block">
+          <input type="text" name="contact_name" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">联系人手机</label>
+        <div class="layui-input-block">
+          <input type="text" name="contact_phone" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-inline" style="margin-left: 13px;">
+        <label class="layui-form-label">联系人邮箱</label>
+        <div class="layui-input-block">
+          <input type="text" name="contact_email" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">联系人关系</label>
+        <div class="layui-input-block">
+          <input type="text" name="contact_relation" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+
+  <form class="layui-form" style="margin-left: 110px;">
+    <table class="layui-table">
+      <colgroup>
+        <col width="150">
+        <col width="150">
+        <col width="200">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>客户身份证</th>
+          <th>客户姓名</th>
+          <th>客户电话</th>
+          <th>客户住址</th>
+          <th>联系人姓名</th>
+          <th>联系人电话</th>
+          <th>联系人邮箱</th>
+          <th>联系人关系</th>
+          <th>贷款负责人</th>
+          <th>账户负责人</th>
+          <th>操作</th>
+        </tr> 
+      </thead>
+      <tbody>
+        {% for customer in data %}
+          <tr>
+            <td>{{customer.cusid}}</td>
+            <td>{{customer.cusname}}</td>
+            <td>{{customer.cusphone}}</td>
+            <td>{{customer.address}}</td>
+            <td>{{customer.contact_name}}</td>
+            <td>{{customer.contact_phone}}</td>
+            <td>{{customer.contact_email}}</td>
+            <td>{{customer.contact_relation}}</td>
+            <td>{{customer.loanres.empname}}</td>
+            <td>{{customer.accres.empname}}</td>
+            <td>
+                <a href="/customer/modify/{{ customer.cusid }}/" class="layui-btn layui-btn-normal">
+                    <i class="layui-icon">&#xe642;</i>修改
+                </a>
+                <a href="/customer/delete/{{ customer.cusid }}/" class="layui-btn layui-btn-danger">
+                    <i class="layui-icon">&#xe640;</i>删除
+                </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+layui.use(['form'], function(){
+  var form = layui.form;
+  form.val('example', {
+      "identity": "000000000000000000"
+  });
+});
+
+{% if msg %}
+layui.use('layer', function(){
+  var layer = layui.layer;
+  layer.msg("{{msg}}");
+});
+{% endif %}
+</script>
+{% endblock %}

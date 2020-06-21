@@ -1,0 +1,93 @@
+{% extends "manager/base.html" %}
+
+{%  block body %}
+<div class="layui-body">
+   
+  <form class="layui-form" action="/account/modifysucc/{{account.accountid.accountid}}/", method="POST">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>请输入账户信息</legend>
+    </fieldset>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户号</label>
+      <div class="layui-input-block">
+        <input type="text" name="accountid" value="{{account.accountid.accountid}}" autocomplete="off" class="layui-input"  readonly="readonly">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户余额</label>
+      <div class="layui-input-block">
+        <input type="text" name="accountid__money" value="{{account.accountid.money}}" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">开户日期</label>
+      <div class="layui-input-inline">
+        <input type="text" name="accountid__settime" id="date" value="{{account.accountid.settime|date:'Y-m-d'}}" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    {% if acctype == "1" %}
+    <div class="layui-form-item">
+      <label class="layui-form-label">透支额度</label>
+      <div class="layui-input-inline">
+        <input type="text" name="overdraft" value="{{account.overdraft}}" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    {% endif %}
+
+    {% if acctype == "0" %}
+    <div class="layui-form-item" id="savetype">
+      <label class="layui-form-label">货币类型</label>
+      <div class="layui-input-block">
+        <select name="savetype" lay-filter="savetype">
+          <option value=""></option>
+          <option value="{{account.savetype}}" selected>{{account.savetype}}</option>
+          <option value="人民币">人民币</option>
+          <option value="美元">美元</option>
+          <option value="日元">日元</option>
+          <option value="英镑">英镑</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item" id="interestrate">
+      <label class="layui-form-label">利率</label>
+      <div class="layui-input-block">
+        <select name="interestrate">
+          <option value="{{account.interestrate}}" selected>{{account.interestrate}}</option>
+          <option value="0.02">0.02</option>
+          <option value="0.03">0.03</option>
+          <option value="0.05">0.05</option>
+        </select>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+  
+</div>
+{% endblock %}
+
+{%  block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+layui.use(['form','laydate'], function(){
+  var form = layui.form;
+  var laydate = layui.laydate;
+  var $ = layui.jquery;
+
+  laydate.render({
+    elem: '#date'
+  });
+});
+</script>
+{% endblock %}
