@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>layout 后台大布局 - Layui</title>
+  <title>银行业务管理系统</title>
+  <link rel="icon" href="/static/image/icon.png" sizes="32x32">
   <link rel="stylesheet" href="/static/layui/css/layui.css">
 </head>
 <body class="layui-layout-body">
@@ -94,7 +95,7 @@
             <th>贷款总额</th>
             <th>客户数量总计</th>
             <th>业务金额总计</th>
-          </tr> 
+          </tr>
         </thead>
         <tbody>
           {% for key, value in tabledata.items %}
@@ -112,12 +113,12 @@
       </table>
     </div>
   </div>
-  
+
   {% endblock %}
 
   <div class="layui-footer">
     <!-- 底部固定区域 -->
-    @ yanshu zhang
+    @zvict
   </div>
 
 </div>
@@ -135,7 +136,7 @@ layui.use(['form','laydate'], function(){
   var laydate = layui.laydate;
   var $ = layui.jquery;
 
-  laydate.render({ 
+  laydate.render({
     elem: '#timeintr'
     ,range: true
   });

@@ -127,7 +127,7 @@ def chart_query(request):
     for bankname in banknames:
         bank = Bank.objects.get(bankname=bankname)
         savecnt, _ = unique_count(Accounts.objects.filter(
-            cusforacc__bank=bank, 
+            cusforacc__bank=bank,
             accounttype="0",
             settime__gte=datetime.date(timestart[0], timestart[1], timestart[2]),
             settime__lte=datetime.date(timeend[0], timeend[1], timeend[2]),
@@ -141,7 +141,7 @@ def chart_query(request):
     for bankname in banknames:
         bank = Bank.objects.get(bankname=bankname)
         checkcnt, _ = unique_count(Accounts.objects.filter(
-            cusforacc__bank=bank, 
+            cusforacc__bank=bank,
             accounttype="1",
             settime__gte=datetime.date(timestart[0], timestart[1], timestart[2]),
             settime__lte=datetime.date(timeend[0], timeend[1], timeend[2]),
@@ -164,7 +164,7 @@ def chart_query(request):
     for bankname in banknames:
         bank = Bank.objects.get(bankname=bankname)
         saveaccs = Accounts.objects.filter(
-            cusforacc__bank=bank, 
+            cusforacc__bank=bank,
             accounttype="0",
             settime__gte=datetime.date(timestart[0], timestart[1], timestart[2]),
             settime__lte=datetime.date(timeend[0], timeend[1], timeend[2]),
@@ -324,7 +324,7 @@ def account_add_succ(request):
     if request.method == 'POST':
         data = post_to_dict(request.POST, 0)
         cus_ids = data['cusid'].split(',')
-        cus_ids = [i[0]*18 for i in cus_ids]
+        # cus_ids = [i[0]*18 for i in cus_ids]
         print(data)
         try:
             acc = Accounts.objects.create(
@@ -371,7 +371,7 @@ def account_add_succ(request):
             if signal['acc'] == 0:
                 Accounts.objects.get(accountid=data['accountid']).delete()
     return render(request, "manager/account/addSucc.html", {"save_succ":save_succ, "signal":signal})
-        
+
 
 def account_all(request):
     saveaccs = SaveAcc.objects.all()
@@ -456,7 +456,7 @@ def loan_add_succ(request):
     if request.method == 'POST':
         data = post_to_dict(request.POST, 0)
         cus_ids = data['cusid'].split(',')
-        cus_ids = [i[0]*18 for i in cus_ids]
+        # cus_ids = [i[0]*18 for i in cus_ids]
         print(data)
         try:
             bank = Bank.objects.get(bankname=data['bankname'])
@@ -550,7 +550,7 @@ def ajax_loan_pay_get_custs(request):
 
 
 def loan_pay(request):
-    loan_ids = Loan.objects.values_list("loanid")
+    loan_ids = Loan.objects.filter(state__in=["0","1"]).values_list("loanid")
     loan_ids = [i[0] for i in loan_ids]
     return render(request, "manager/loan/pay.html", locals())
 
@@ -564,32 +564,34 @@ def loan_pay_succ(request):
         paymoney = float(pay_dict['money'])
         moneyleft = float(loan.moneyleft)
         msg = "发放成功"
-        if paymoney > moneyleft:
+        if paymoney > moneyleft or moneyleft == 0.0:
             msg = "余额不足"
+        elif paymoney <= 0.0:
+            msg = "发放金额须大于0"
         elif paymoney == moneyleft:
-            # try:
-            payinfo = PayInfo.objects.create(
-                loanid=loan,
-                cusid=cus,
-                money=paymoney,
-                paytime=pay_dict['paytime']
-            )
-            loan.state = "2"
-            loan.moneyleft = 0.0
-            loan.save()
-            # except:
-            #     msg = "发放失败"
+            try:
+                payinfo = PayInfo.objects.create(
+                    loanid=loan,
+                    cusid=cus,
+                    money=paymoney,
+                    paytime=pay_dict['paytime']
+                )
+                loan.state = "2"
+                loan.moneyleft = 0.0
+                loan.save()
+            except:
+                msg = "发放失败"
         else:
-            # try:
-            payinfo = PayInfo.objects.create(
-                loanid=loan,
-                cusid=cus,
-                money=paymoney,
-                paytime=pay_dict['paytime']
-            )
-            loan.state = "1"
-            loan.moneyleft = moneyleft - paymoney
-            loan.save()
-            # except:
-            #     msg = "发放失败"
+            try:
+                payinfo = PayInfo.objects.create(
+                    loanid=loan,
+                    cusid=cus,
+                    money=paymoney,
+                    paytime=pay_dict['paytime']
+                )
+                loan.state = "1"
+                loan.moneyleft = moneyleft - paymoney
+                loan.save()
+            except:
+                msg = "发放失败"
     return render(request, "manager/loan/paySucc.html", {"msg":msg})

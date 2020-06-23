@@ -2,7 +2,7 @@
 
 {%  block body %}
 <div class="layui-body">
-   
+
   <form class="layui-form" action="/loan/addsucc/", method="POST">
 
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -60,7 +60,7 @@
       </div>
     </div>
   </form>
-  
+
 </div>
 {% endblock %}
 
@@ -86,7 +86,7 @@ var multiselect = xmSelect.render({
   layVerType: 'msg',
   data: [
     {% for cus_id in cus_ids %}
-      {name: '{{cus_id}}', value: {{cus_id}}},
+      {name: '{{cus_id}}', value: '{{cus_id}}'},
     {% endfor %}
   ]
 });

@@ -25,7 +25,9 @@ SECRET_KEY = '*g&j(gxg$_15=6i97px4=7d@jaqd&hmk1_#_h76opneg$=_x=i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'zvict.pythonanywhere.com',
+]
 
 
 # Application definition
@@ -75,21 +77,20 @@ WSGI_APPLICATION = 'bank.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
-        'NAME': 'bank',  # 数据库名，先前创建的
-        'USER': 'root',     # 用户名，可以自己创建用户
-        'PASSWORD': '39742619',  # 密码
-        'HOST': 'localhost',  # mysql服务所在的主机ip
-        'PORT': '3306',         # mysql服务端口
-        'CHARSET': 'utf8',
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
+    #'default': {
+    #    'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
+    #    'NAME': 'bank',  # 数据库名，先前创建的
+    #    'USER': 'root',     # 用户名，可以自己创建用户
+    #    'PASSWORD': '39742619',  # 密码
+    #    'HOST': 'localhost',  # mysql服务所在的主机ip
+    #    'PORT': '3306',         # mysql服务端口
+    #    'CHARSET': 'utf8',
+    #}
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
