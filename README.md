@@ -8,4 +8,4 @@ a webapp based on
 
 * front end: Layui, highcharts and xmselect
 
-** demo at [pythonanywhere](zvict.pythonanywhere.com) **
+**demo at [pythonanywhere](zvict.pythonanywhere.com)**
