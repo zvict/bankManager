@@ -1,5 +1,11 @@
 # bankManager
 
-a webapp based on MySQL, Django and Layui
+a webapp based on 
 
-what's more, highcharts and xmselect
+* back end: MySQL, Python
+
+* framework: Django
+
+* front end: Layui, highcharts and xmselect
+
+** demo at [pythonanywhere](zvict.pythonanywhere.com) **
